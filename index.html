@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Key Helper</title>
+<style>
+body{background:#10111a;color:white;font-family:Arial;padding:25px}
+main{max-width:500px;margin:auto}
+textarea{width:100%;height:120px;background:#222;color:white;padding:12px;box-sizing:border-box}
+button{width:100%;padding:15px;margin-top:12px;background:#7774ff;color:white;border:0;border-radius:8px;font-size:16px}
+</style>
+</head>
+<body>
+<main>
+<h2>Key Link Helper</h2>
+<p>Colle ton lien LootLabs ou Platorelay :</p>
+<textarea id="url" placeholder="Colle ton lien ici"></textarea>
+<button onclick="check()">Vérifier et ouvrir</button>
+<p id="result"></p>
+</main>
+<script>
+function check(){
+ let value=document.getElementById('url').value.trim();
+ let out=document.getElementById('result');
+ try{
+  let u=new URL(value);
+  if(u.protocol!=="https:") throw Error();
+  let host=u.hostname;
+  if(host==="auth.platorelay.com" || host.endsWith(".platorelay.com")){
+   out.innerHTML="Lien Platorelay reconnu.";
+  }else if(host==="links.lootlabs.gg" || host.endsWith(".lootlabs.gg")){
+   out.innerHTML="Lien LootLabs reconnu.";
+  }else{
+   out.innerHTML="Site non reconnu.";
+   return;
+  }
+  let a=document.createElement("a");
+  a.href=u.href;
+  a.target="_blank";
+  a.rel="noopener noreferrer";
+  a.textContent="Ouvrir le parcours officiel";
+  out.appendChild(document.createElement("br"));
+  out.appendChild(a);
+ }catch(e){
+  out.textContent="Lien invalide.";
+ }
+}
+</script>
+</body>
+</html>
